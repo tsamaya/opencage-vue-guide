@@ -3,7 +3,7 @@
     <Header />
     <div class="columns">
       <div class="column is-one-third-desktop">
-        <GeocodingForm @geocode-success="updateResponse" />
+        <GeocodingForm @geocode-success="publishResponse" />
       </div>
       <div class="column">
         <GeocodingResults :response="response" />
@@ -30,7 +30,7 @@ export default {
     GeocodingResults,
   },
   methods: {
-    updateResponse(e) {
+    publishResponse(e) {
       this.response = e;
     },
   },

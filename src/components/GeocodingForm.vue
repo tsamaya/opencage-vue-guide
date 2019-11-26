@@ -8,7 +8,12 @@
           <span class="icon is-small is-left">
             <i class="fas fa-lock" />
           </span>
-          <input v-model="apiKey" type="text" class="input" placeholder="YOUR-API-KEY" />
+          <input
+            v-model="apiKey"
+            type="text"
+            class="input"
+            placeholder="YOUR-API-KEY"
+          />
         </div>
         <div class="help">
           Your OpenCage Geocoder API Key (
@@ -25,7 +30,12 @@
           <span class="icon is-small is-left">
             <i class="fas fa-map-marked-alt" />
           </span>
-          <input v-model="query" type="text" class="input" placeholder="location" />
+          <input
+            v-model="query"
+            type="text"
+            class="input"
+            placeholder="location"
+          />
           <div class="help">
             Address, place name
             <br />Coordinates as
@@ -42,7 +52,7 @@
         <div class="control">
           <button
             class="button is-light"
-            v-bind:class="{'is-loading': isLocating}"
+            v-bind:class="{ 'is-loading': isLocating }"
             v-on:click="handleGeoLocation"
           >
             <span class="icon is-small">
@@ -57,7 +67,9 @@
         class="button is-success"
         v-bind:disabled="isLocating || isSubmitting"
         v-on:click="geocode"
-      >Geocode</button>
+      >
+        Geocode
+      </button>
       <!-- ./Button Geocode -->
     </form>
   </div>
@@ -67,7 +79,7 @@
 import * as opencage from 'opencage-api-client';
 
 export default {
-  name: 'form',
+  name: 'geoform',
   data() {
     return {
       apiKey: null,

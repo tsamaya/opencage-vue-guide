@@ -10,7 +10,12 @@
             <span>Results</span>
           </a>
         </li>
-        <li v-bind:class="{ 'is-active': activTab === MAP_TAB }">
+        <li
+          v-bind:class="[
+            { 'is-active': activTab === MAP_TAB },
+            { 'is-hidden': !response.hasOwnProperty('rate') },
+          ]"
+        >
           <a href="#" v-on:click.prevent="setActiveTab(MAP_TAB)">
             <span class="icon is-small">
               <i class="fas fa-globe-americas" aria-hidden="true" />
@@ -18,10 +23,15 @@
             <span>Map</span>
           </a>
         </li>
-        <li v-bind:class="{ 'is-active': activTab === JSON_TAB }">
+        <li
+          v-bind:class="[
+            { 'is-active': activTab === JSON_TAB },
+            { 'is-hidden': !response.hasOwnProperty('rate') },
+          ]"
+        >
           <a href="#" v-on:click.prevent="setActiveTab(JSON_TAB)">
             <span class="icon is-small">
-              <i class="fas fa-js" aria-hidden="true" />
+              <i class="fab fa-js" aria-hidden="true" />
             </span>
             <span>JSON Result</span>
           </a>
@@ -56,6 +66,7 @@
   </div>
 </template>
 <script>
+import './../../node_modules/leaflet/dist/leaflet.css';
 import L from 'leaflet';
 const RESULT_TAB = 'RESULT_TAB';
 const MAP_TAB = 'MAP_TAB';
@@ -92,28 +103,30 @@ export default {
 
       // creates the Leaflet map object
       // it is called after the Map component mounts
-      this.map = L.map('map', {
+      const map = L.map('map', {
         center: [45, 2],
         zoom: 4,
       });
 
-      // L.tileLayer(
-      //   'https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager/{z}/{x}/{y}.png',
-      //   {
-      //     maxZoom: 18,
-      //     attribution:
-      //       '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attribution">CARTO</a>',
-      //   }
-      // );
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      }).addTo(this.map);
+      L.tileLayer(
+        'https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager/{z}/{x}/{y}.png',
+        {
+          maxZoom: 18,
+          attribution:
+            '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attribution">CARTO</a>',
+        }
+      ).addTo(map);
+      // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      //   attribution:
+      //     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      // }).addTo(map);
 
-      this.layer = L.featureGroup().addTo(this.map);
+      const layer = L.featureGroup().addTo(map);
 
       // set the state
       this.mapInit = true;
+      this.map = map;
+      this.layer = layer;
     },
     updateMap() {
       if (!this.response) return;

@@ -62,12 +62,21 @@
       </div>
     </article>
     <!-- MAP response -->
-    <div id="map" v-bind:class="{ 'is-hidden': activTab !== MAP_TAB }"></div>
+    <article
+      class="message"
+      v-bind:class="{ 'is-hidden': activTab !== MAP_TAB }"
+    >
+      <div class="message-body">
+        <div id="map"></div>
+      </div>
+    </article>
   </div>
 </template>
+
 <script>
 import './../../node_modules/leaflet/dist/leaflet.css';
 import L from 'leaflet';
+
 const RESULT_TAB = 'RESULT_TAB';
 const MAP_TAB = 'MAP_TAB';
 const JSON_TAB = 'JSON_TAB';
@@ -128,10 +137,14 @@ export default {
       this.map = map;
       this.layer = layer;
     },
-    updateMap() {
+  },
+  watch: {
+    response: function() {
       if (!this.response) return;
       const { results } = this.response;
       if (!results) return;
+      // console.log(results);
+      this.layer.clearLayers();
       for (let i = 0; i < results.length; i++) {
         const marker = L.marker(results[i].geometry, { icon: redIcon });
         marker
@@ -143,6 +156,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .results {
   min-height: 50vh;

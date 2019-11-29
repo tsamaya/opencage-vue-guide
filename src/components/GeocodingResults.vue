@@ -62,14 +62,14 @@
       </div>
     </article>
     <!-- MAP response -->
-    <article
+    <!-- <article
       class="message"
       v-bind:class="{ 'is-hidden': activTab !== MAP_TAB }"
-    >
-      <div class="message-body">
-        <div id="map"></div>
-      </div>
-    </article>
+    >-->
+    <!-- <div class="message-body" v-bind:class="{ 'is-hidden': activTab !== MAP_TAB }"> -->
+    <div id="map"></div>
+    <!-- </div>
+    </article>-->
   </div>
 </template>
 
@@ -107,6 +107,12 @@ export default {
     setActiveTab(tab) {
       this.activTab = tab;
     },
+    // invalidateSize: function() {
+    //   setTimeout(() => {
+    //     this.map.invalidateSize();
+    //   }, 300);
+    // },
+
     initMap() {
       if (this.mapInit) return;
 
@@ -117,18 +123,18 @@ export default {
         zoom: 4,
       });
 
-      L.tileLayer(
-        'https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager/{z}/{x}/{y}.png',
-        {
-          maxZoom: 18,
-          attribution:
-            '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attribution">CARTO</a>',
-        }
-      ).addTo(map);
-      // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      //   attribution:
-      //     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      // }).addTo(map);
+      // L.tileLayer(
+      //   'https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager/{z}/{x}/{y}.png',
+      //   {
+      //     maxZoom: 18,
+      //     attribution:
+      //       '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attribution">CARTO</a>',
+      //   }
+      // ).addTo(map);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
 
       const layer = L.featureGroup().addTo(map);
 
@@ -143,6 +149,7 @@ export default {
       if (!this.response) return;
       const { results } = this.response;
       if (!results) return;
+      // this.invalidateSize();
       // console.log(results);
       this.layer.clearLayers();
       for (let i = 0; i < results.length; i++) {
